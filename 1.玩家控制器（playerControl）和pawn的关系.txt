@@ -1,10 +1,10 @@
 1.玩家控制器（playerControl）和pawn的关系
 Pawn 是所有可控制实体的基类，它定义了物体在游戏世界中的物理存在（位置、碰撞）。
 而 Character 是 Pawn 的一种，它确实是一套写满了行走、跳跃等行为逻辑的类，专门供 PlayerController 或 AIController 来控制，让玩家或 AI 能在世界里跑动。
-由pawn类继承下来的character类再继承了AIController和PlayerControl分别管理运行行为树逻辑表示电脑智能另一个则代表接受键盘输入即玩家
+controller继承了AIController和PlayerController分别管理运行行为树逻辑表示电脑智能另一个则代表接受键盘输入即玩家
 ？二者的关系是什么样的呢
 首先逻辑就是由control类来接收键盘输入后将这些命令传递给pawn进行处理后实行
-但是通常因为pawn里写的都是一些简单的意图绝大部分都是他的子类AICharacter和playerCharacter来进行一些复杂的行为
+但是通常因为pawn里写的都是一些简单的意图绝大部分都是他的子类ACharacter来进行一些复杂的行为
 control中存在pawn的指针，这个指针不是control凭空创造的而是通过possess函数从pawn中获取指针然后将其输入到control中
 ？为什么是pawn的指针而不是他的子类呢
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
