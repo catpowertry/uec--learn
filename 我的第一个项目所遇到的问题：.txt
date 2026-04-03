@@ -1,0 +1,43 @@
+我的第一个项目所遇到的问题：
+****************1****************
+我在创建空白游戏后不知道怎么创建一个纯c++角色
+解决方案：
+点左上角的工具创建会弹出一个纯c++的类然后选择父类就行了然后会创建VS的解决方案在上面编写代码就可以了。
+****************2****************
+vs解决方案生成后你的关于这个角色的代码出现在Sourse/MyCharactorproject里
+在头文件里（.h)
+里有一个AMyCharactor这就是类名系统自动创建的头文件中的类然后你会发现他这个该可以看他的从属关系就是他底下从属的函数
+其实就是方便查看的防止后面代码量多起来不好维护所以就直接把源文件底下再分出多个文件那么自然的要是想成为一个好的UE工程师也要像这样写
+类前面加上A就是方便UE识别
+****************************************
+两天没写这个了因为遇到问题了就是创建了c++类后面一直无法运行就是一直编译出问题我这两天一直在搞这个问题
+暂时还没解决大概率是因为某些文件没有正确创建就是一味自己想自己做，解决方案就是跟着书或者视频慢慢来太着急了
+*******************************************************************************************************************
+解决方案：
+关闭UE重新编译原因是LiveCode启用可是在我关闭后也不起作用
+然后就是目前正常的创建方式就是：
+从UE中创建
+1.MyActor
+2.MyGameMode
+3.MyGameModeBase
+4.MyGamestate
+5，MyHUD
+6.Mypawn
+7.MyPlayerControl
+8.MyPlayerState
+记住在创建UE项目时会打开Vs这是第一时间要打开生成然后生成有关代码
+然后创建完上面8个代码后进入Vs找到MyGameMode的头文件后将刚创建的C++的头文件文件导入
+格式例如：#include “MyGameState.h”
+然后在底下的类定义中加入构造函数AMyGamaeMode（）
+然后打开GameMode的源文件利用构造函数导入
+AMyGameMode::AMyGameMode()
+{
+	DefaultPawnClass = AMyPawn::StaticClass();
+	PlayerControllerClass = AMyPlayerController::StaticClass();	
+	GameStateClass = AMyGameState::StaticClass();	
+	PlayerStateClass = AMyPlayerState::StaticClass();	
+	HUDClass = AMyHUD::StaticClass();	
+}
+解释：等号左边是系统关键字整个过程就是给整个游戏设置一系列东西然后staticclass（）不是普通c++是UE的反射系统返回的是指针指针里存了类的名字，父类，多有UPROPERTY（）
+标记的属性所有UFUNCTUON（）标记的函数和一些元数据等等
+
