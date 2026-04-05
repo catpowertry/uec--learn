@@ -1,0 +1,30 @@
+我的角色行走（2）
+1.CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+2.CameraBoom->SetupAttachment(RootComponent);
+3.CameraBoom->TargetArmLength = 300.0f;
+CameraBoom是当时创建的指针这个时候第一段代码就是将这个USpringArmComponent的地址返回给CameraBoom
+而这个CreateDefaultSubobject的存在就是新建加返回地址，这个相当于机器而尖括号中的就是图纸后面的就相当于属性如果没有这个CameraBoom的话引擎就找不到这个指针变量了
+第二段就是利用这个刚赋值的指针对角色本体进行绑定Root ComponentActor就是Actor的定位器这样绑定就相当于绑定了本体让弹簧臂一直跟着角色走
+TargetArmLength（目标臂长）就是摄像机离你角色有多远的设定值。
+	CameraBoom->TargetArmLength = 300.0f;
+	// 设置相对位置 (X, Y, Z)
+// Z=70 表示向上抬高 70 个单位
+	CameraBoom->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));        这个英文就是设置相对位置
+	CameraBoom->SetRelativeRotation(FRotator(-30.0f, 0.0f, 0.0f));      设置旋转角度
+	CameraBoom->bEnableCameraLag = true; // 开启位置延迟
+	CameraBoom->bEnableCameraRotationLag = true; // 开启旋转延迟
+	CameraBoom->CameraLagSpeed = 5.0f; // 位置追赶速度
+	CameraBoom->CameraRotationLagSpeed = 5.0f; // 旋转追赶速度
+	CameraBoom->CameraLagMaxDistance = 200.0f; // 最大甩动距离限制
+	CameraBoom->bUsePawnControlRotation = true; // 响应鼠标旋转
+FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);            这里就是绑定在弹簧臂的固定点SocketName上然后这个SocketName属于创建的CameraBoom
+FollowCamera->bUsePawnControlRotation = false;
+bUsePawnControlRotation 是一个布尔值（true/false）属性，意思是“是否使用玩家控制器的旋转”。
+= false; 表示关闭这个功能。
+效果：这意味着 FollowCamera 的朝向不会直接受到玩家鼠标或手柄转动视角的影响。它的旋转将完全由它的“父物体”（也就是刚才的 CameraBoom）来决定。
+那么整个完整的流程就是：
+创建一个Pawn就是一个角色
+然后在pawn的头文件中添加弹簧臂和摄像机并在设置此指针时设置好蓝图的一些属性
+转到源文件中设置弹簧臂和摄像机的参数
+最后用蓝图设置移动
